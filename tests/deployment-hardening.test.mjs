@@ -1,0 +1,4 @@
+import test from"node:test";import assert from"node:assert/strict";import{readFile}from"node:fs/promises";const config=await readFile("netlify.toml","utf8");const workflow=await readFile(".github/workflows/ci.yml","utf8");
+test("Netlify build configuration pins Node and disables telemetry",()=>{assert.match(config,/NODE_VERSION = "22"/);assert.match(config,/NEXT_TELEMETRY_DISABLED = "1"/)});
+test("deployment headers deny framing, sniffing, and sensitive permissions",()=>{for(const value of["X-Content-Type-Options","X-Frame-Options","Permissions-Policy","Content-Security-Policy"])assert.match(config,new RegExp(value));assert.match(config,/Cache-Control = "private, no-store/)});
+test("CI retains validation, tests, lint, build, and production audit",()=>{for(const command of["validate:release","npm test","npm run lint","npm run build","npm audit --audit-level=high"])assert.match(workflow,new RegExp(command.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")))});

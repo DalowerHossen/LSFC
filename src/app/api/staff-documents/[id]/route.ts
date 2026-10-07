@@ -1,0 +1,20 @@
+import { getAuthContext, getMfaStep } from "@/lib/auth/session";
+import { downloadDecryptedApplicationFile } from "@/lib/google-drive/encrypted-file-storage";
+import { createClient } from "@/lib/supabase/server";
+
+export const dynamic = "force-dynamic";
+const extensions: Record<string,string> = { "application/pdf":"pdf", "image/png":"png", "image/jpeg":"jpg", "image/webp":"webp" };
+export async function GET(_request: Request, { params }: { params: Promise<{id:string}> }) {
+  const context = await getAuthContext();
+  if (!context || getMfaStep(context)) return new Response("Unauthorized", { status: 401 });
+  if (!(["owner","super_admin"] as string[]).includes(context.role)) return new Response("Forbidden", { status: 403 });
+  if (context.role !== "super_admin" && context.centerStatus !== "active") return new Response("Center inactive", { status: 403 });
+  const { id } = await params;
+  if (!/^[0-9a-f-]{36}$/i.test(id)) return new Response("Not found", { status: 404 });
+  const { data } = await (await createClient()).from("staff_documents").select("drive_file_id,mime_type,file_hash").eq("id",id).single();
+  if (!data) return new Response("Not found", { status: 404 });
+  try {
+    const bytes = await downloadDecryptedApplicationFile(data.drive_file_id);
+    return new Response(new Uint8Array(bytes), { headers: { "content-type":data.mime_type, "content-length":String(bytes.length), "content-disposition":`attachment; filename="lsfc-staff-${data.file_hash.slice(0,12)}.${extensions[data.mime_type]??"bin"}"`, "cache-control":"private, no-store, max-age=0", "x-content-type-options":"nosniff", "content-security-policy":"default-src 'none'; sandbox" } });
+  } catch { return new Response("Document unavailable", { status: 503 }); }
+}

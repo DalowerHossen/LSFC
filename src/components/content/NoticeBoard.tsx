@@ -1,0 +1,7 @@
+import { AlertTriangle, Bell } from "lucide-react";
+
+type Notice = { id: string; title: string; body: string; priority: number; published_at: string | null };
+
+export function NoticeBoard({ notices, title = "নোটিশসমূহ", kicker = "কেন্দ্রীয় নোটিশ বোর্ড" }: { notices: Notice[]; title?: string; kicker?: string }) {
+  return <div><div className="mb-7"><div className="flex items-center gap-2 text-xs font-bold text-brand"><Bell className="size-4" /> {kicker}</div><h1 className="mt-2 text-2xl font-extrabold">{title}</h1></div>{notices.length === 0 ? <div className="rounded-2xl border border-border bg-white py-16 text-center text-sm text-muted">বর্তমানে কোনো নোটিশ নেই</div> : <div className="space-y-4">{notices.map((notice) => <article key={notice.id} className={`rounded-2xl border bg-white p-5 shadow-sm ${notice.priority >= 2 ? "border-amber-300" : "border-border"}`}><div className="flex items-start gap-3">{notice.priority >= 2 ? <AlertTriangle className="mt-0.5 size-5 shrink-0 text-amber-600" /> : <Bell className="mt-0.5 size-5 shrink-0 text-brand" />}<div><h2 className="text-sm font-extrabold">{notice.title}</h2><p className="mt-2 whitespace-pre-wrap text-xs leading-6 text-muted">{notice.body}</p>{notice.published_at && <time className="mt-3 block text-[9px] text-muted">{new Intl.DateTimeFormat("bn-BD", { dateStyle: "long", timeStyle: "short", timeZone: "Asia/Dhaka" }).format(new Date(notice.published_at))}</time>}</div></div></article>)}</div>}</div>;
+}

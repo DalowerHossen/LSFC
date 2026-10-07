@@ -1,0 +1,6 @@
+"use client";
+import { useActionState } from "react";
+import { AlertCircle, FileCheck2, LoaderCircle } from "lucide-react";
+import { generateMonthlyReportAction,type ReportState } from "@/app/owner/reports/actions";
+const initial:ReportState={};
+export function MonthlyReportForm(){const[state,action,pending]=useActionState(generateMonthlyReportAction,initial);const now=new Date();const previous=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()-1,1)).toISOString().slice(0,7);return <form action={action} className="mt-5 grid gap-4 sm:grid-cols-[1fr_auto]"><label><span className="mb-1.5 block text-[10px] font-bold text-muted">সম্পন্ন মাস নির্বাচন</span><input name="reportMonth" type="month" required max={previous} defaultValue={previous} className="h-11 w-full rounded-xl border border-border px-4 text-xs font-bold outline-none focus:border-brand"/></label><button disabled={pending} className="flex h-11 items-center justify-center gap-2 self-end rounded-xl bg-brand px-5 text-xs font-bold text-white disabled:opacity-60">{pending?<LoaderCircle className="size-4 animate-spin"/>:<FileCheck2 className="size-4"/>}Final report তৈরি করুন</button>{state.error&&<div className="flex items-center gap-2 text-xs text-red-700 sm:col-span-2"><AlertCircle className="size-4"/>{state.error}</div>}</form>}

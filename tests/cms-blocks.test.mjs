@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+const sql=await readFile("supabase/migrations/041_typed_cms_blocks.sql","utf8");
+const action=await readFile("src/app/superadmin/content/actions.ts","utf8");
+const page=await readFile("src/app/(public)/info/[slug]/page.tsx","utf8");
+const home=await readFile("src/app/(public)/page.tsx","utf8");
+const renderer=await readFile("src/components/content/PublicCmsBlocks.tsx","utf8");
+test("typed CMS blocks are allowlisted and versioned",()=>{assert.match(sql,/not in\('heading','paragraph','callout','link'\)/);assert.match(sql,/cms_page_versions\(page_id,version,title,content,blocks,status,changed_by\)/);assert.match(sql,/jsonb_array_length\(p_blocks\)not between 1 and 30/)});
+test("CMS input is validated independently by application and database",()=>{assert.match(action,/discriminatedUnion\("type"/);assert.match(action,/\.strict\(\)/);assert.match(sql,/Super Admin AAL2 required/);assert.match(sql,/https:\\\/\\\//)});
+test("public CMS renders typed values without raw HTML injection",()=>{assert.match(page,/\.eq\("status","published"\)/);assert.match(home,/\.eq\("slug","home"\).*\.eq\("status","published"\)/s);assert.doesNotMatch(renderer,/dangerouslySetInnerHTML/);assert.match(renderer,/noopener noreferrer/)});

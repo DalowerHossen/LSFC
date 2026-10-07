@@ -1,0 +1,6 @@
+"use client";
+import { useActionState } from "react";
+import { LoaderCircle } from "lucide-react";
+import { reviewRenewalAction,type RenewalReviewState } from "@/app/superadmin/license-renewals/actions";
+const init:RenewalReviewState={};
+export function RenewalReviewForm({id}:{id:string}){const[s,a,p]=useActionState(reviewRenewalAction,init);return <form action={a} className="mt-4"><input type="hidden" name="requestId" value={id}/><textarea name="note" required minLength={10} maxLength={1000} placeholder="পর্যালোচনার মন্তব্য লিখুন" className="min-h-20 w-full rounded-xl border border-border p-3 text-xs outline-none focus:border-brand"/><div className="mt-2 grid grid-cols-2 gap-2"><button name="decision" value="reject" disabled={p} className="h-10 rounded-lg border border-red-200 text-xs font-bold text-red-700">প্রত্যাখ্যান</button><button name="decision" value="approve" disabled={p} className="flex h-10 items-center justify-center rounded-lg bg-brand text-xs font-bold text-white">{p&&<LoaderCircle className="mr-2 size-4 animate-spin"/>}অনুমোদন</button></div>{(s.error||s.success)&&<p className={`mt-2 text-[10px] ${s.error?"text-red-700":"text-emerald-700"}`}>{s.error??s.success}</p>}</form>}
