@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7faf8;
+  --foreground: #14231e;
+  --brand: #006a4e;
+  --brand-dark: #004d39;
+  --brand-soft: #e8f4ef;
+  --accent: #f42a41;
+  --surface: #ffffff;
+  --border: #dce8e3;
+  --muted: #5d6f68;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--brand-soft);
+  --color-accent: var(--accent);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --font-sans: "Noto Sans Bengali Variable", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Noto Sans Bengali Variable", "Noto Sans Bengali", sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 3px solid #f42a41;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  padding: 0.75rem 1rem;
+  color: #004d39;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+::selection {
+  background: #bde2d4;
+  color: #003f2f;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(0, 106, 78, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 106, 78, 0.045) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, black 35%, transparent 100%);
+}
+
+.dashboard-shadow {
+  box-shadow:
+    0 35px 90px -35px rgba(0, 73, 54, 0.32),
+    0 18px 35px -20px rgba(0, 0, 0, 0.18);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-up {
+    animation: fade-up 700ms ease-out both;
+  }
+
+  .fade-up-delay {
+    animation: fade-up 700ms 150ms ease-out both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.receipt-paper {
+  height: fit-content;
+  padding: 7mm 5mm;
+  transition: width 180ms ease;
+}
+
+.receipt-paper svg[title="রশিদ যাচাই QR কোড"] {
+  display: block;
+  margin-inline: auto;
+}
+
+.receipt-58mm {
+  width: 58mm;
+  padding-inline: 3.5mm;
+}
+
+.receipt-80mm {
+  width: 80mm;
+}
+
+.receipt-a4-half {
+  width: 148mm;
+  min-height: 210mm;
+  padding: 14mm 16mm;
+}
+
+@media print {
+  @page {
+    margin: 0;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  .receipt-paper,
+  .receipt-paper * {
+    visibility: visible !important;
+  }
+
+  .receipt-paper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+}

@@ -559,11 +559,28 @@ Training materials in Bengali
 Nationwide rollout
 Continuous feature updates
 📝 Current Project Status
-Status: [UPDATE THIS SECTION IN EACH NEW CHAT]
+Status: Engineering and policy conformance re-audited; documented gaps remain before legal certification (06 October 2026)
 
-Example: "Currently working on: Phase 1 - Supabase schema design & RLS policies"
-Example: "Completed: Login UI, Smart 2FA setup. Next: Operator dashboard with 14 services"
-Example: "Blocked on: Google Drive API integration — need help with encryption workflow"
+Completed:
+- Automated release preflight for continuous migration numbering, destructive SQL detection, required files, and environment readiness
+- CI workflow for release validation, ESLint, production build, and full production/development dependency audit
+- Liveness and database-backed readiness endpoints with no secret disclosure
+- Production deployment, migration, bootstrap, integration, scheduler, verification, and forward-only rollback runbook
+- Production server smoke tests for health, security headers, and protected-route redirects
+- 49 ordered migrations, provider-neutral notification outbox/reminder scheduling foundations, durable PDF rollback reconciliation, and 59 policy/security/accessibility regression tests
+- Appendix-6 Union and Upazila Sadar classifications corrected without changing Appendix-7 tiers
+- Printable Policy 11.6.6 consent form, Policy 11.6.7 rate chart/signboard, signed report snapshots, live Operator metrics, CSP, and audit request context
+- Full engineering gap matrix recorded in `docs/COMPLIANCE_AUDIT.md`
+
+Currently working on:
+- Closing the remaining requirement groups recorded in `docs/COMPLIANCE_AUDIT.md` without inventing government rules or provider results
+
+Next:
+- Implement the remaining non-provider workflows, then configure the deployment environment, apply migrations, bootstrap an AAL2 Super Admin, and execute the live E2E checklist
+
+Blocked on:
+- Supabase/provider credentials are required for live integration verification
+- The authoritative guideline, official Forms 1–5, retention scope, fee-limit circular, and approved public legal copy are required for legal sign-off
 🎯 Instructions for AI Assistant
 When continuing this project in a new chat:
 

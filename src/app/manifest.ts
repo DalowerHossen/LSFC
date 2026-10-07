@@ -1,0 +1,1 @@
+import type { MetadataRoute } from "next";export default function manifest():MetadataRoute.Manifest{return{name:"ভূমিসেবা সহায়তা কেন্দ্র",short_name:"LSFC",description:"নিরাপদ ভূমিসেবা সহায়তা কেন্দ্র ব্যবস্থাপনা",start_url:"/",display:"standalone",background_color:"#f3f7f5",theme_color:"#006a4e",lang:"bn",icons:[{src:"/favicon.ico",sizes:"any",type:"image/x-icon"}]}}

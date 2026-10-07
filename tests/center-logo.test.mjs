@@ -1,0 +1,5 @@
+import test from "node:test";import assert from "node:assert/strict";import{readFile}from"node:fs/promises";
+const sql=await readFile("supabase/migrations/042_encrypted_center_logo.sql","utf8");const action=await readFile("src/app/owner/print-settings/actions.ts","utf8");const receipt=await readFile("src/components/receipts/CustomerReceipt.tsx","utf8");
+test("Center logos require Owner MFA and immutable tenant metadata",()=>{assert.match(sql,/private\.current_role\(\)<>'owner'or not private\.mfa_satisfied\(\)/);assert.match(sql,/center_brand_assets_immutable before update or delete/);assert.match(sql,/center_brand_assets_tenant_read/)});
+test("Center-logo upload validates image bytes and compensates registration failure",()=>{assert.match(action,/validLogo\(bytes,file\.type\)/);assert.match(action,/file\.size>2\*1024\*1024/);assert.match(action,/deleteEncryptedDriveFile\(uploaded\.fileId\)/)});
+test("receipts use the latest encrypted logo with a safe fallback",()=>{assert.match(receipt,/api\/center-assets/);assert.match(receipt,/settings\.logoId\?/);assert.match(receipt,/>ভূ<\/div>/)});
